@@ -1,0 +1,37 @@
+<html>
+    <head>
+        <title>Upload</title>
+        <!-- We use jQuery since they offer an easy way to send GET and POST requests -->
+        <script src="https://code.jquery.com/jquery-1.11.1.js" charset="utf-8"></script>
+        <!-- This is the file that contains the actual magic -->
+        <script src="js/jquery-siesta-upload.js" charset="utf-8"></script>
+
+        <script type="text/javascript">
+            // Change this and you are good to go!
+            $("upload").click(function(event){
+                uploadToSiesta({
+                    apikey:         "YOUR_USERS_API_KEY",
+                    accountName:    "YOUR_ACCOUNT_NAME",
+                    fileType:       "publication", // either publication or image
+                    file:           $("file").select(),
+                    
+                    success: function(response){
+                        var relativePath = $(response).find('Key')[0].textContent;
+                        var absolutePath = $(response).find('Location')[0].textContent;
+                    },
+                    error: function(e){
+                        alert(e.error.message);
+                    }
+                });
+            });
+        </script>
+
+    </head>
+    <body>
+        <!-- The input field for the file - you can only upload one file -->
+        <input id="file" type="file" name="file" accept="application/pdf">
+        <br>
+        <!-- When this button is clicked, the file from the file upload field is uploaded -->
+        <button id="upload" name="upload">Upload selected .pdf-file</button>
+    </body>
+</html>
